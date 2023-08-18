@@ -12,6 +12,26 @@ SD.ProductAPIBase = builder.Configuration["ServiceUrls:ProductAPI"];
 
 builder.Services.AddScoped<IProductService, ProductService>();
 
+builder.Services.AddAuthentication(opt =>
+{
+    opt.DefaultScheme = "Cookies";
+    opt.DefaultChallengeScheme = "oidc";
+})
+    .AddCookie("Cookies", c => c.ExpireTimeSpan = TimeSpan.FromMinutes(10))
+    .AddOpenIdConnect("oidc", opt =>
+    {
+        opt.Authority = builder.Configuration["ServiceUrls:IdentityAPI"];
+        opt.GetClaimsFromUserInfoEndpoint = true;
+        opt.ClientId = "mango";   //get them from SD identity project
+        opt.ClientSecret = "secret"; //get them from SD identity project
+        opt.ResponseType = "code"; //get them from SD identity project
+        opt.TokenValidationParameters.NameClaimType = "name";
+        opt.TokenValidationParameters.RoleClaimType = "role";
+        opt.Scope.Add("mango"); //get them from SD identity project
+        opt.SaveTokens = true;
+    });
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -27,6 +47,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
