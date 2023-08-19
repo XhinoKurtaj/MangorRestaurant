@@ -22,12 +22,13 @@ namespace Mango.Web.Controllers
         [Authorize]
         public IActionResult Login()
         {
+
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Logut()
+        public IActionResult Logout()
         {
-            return SignOut("Cookies", "iodc");
+            return SignOut("Cookies", "oidc");
         }
 
         public IActionResult Privacy()
