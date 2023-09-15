@@ -6,7 +6,7 @@ namespace Mango.Web.Models
     {
         public ApiType ApiType { get; set; } = ApiType.GET;
         public required string  Url { get; set; }
-        public object? Data { get; set; }
+        public object Data { get; set; }
         public required string AccessToken { get; set; }
     }
 }
