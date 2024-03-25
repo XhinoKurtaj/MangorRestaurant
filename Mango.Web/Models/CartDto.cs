@@ -4,7 +4,7 @@ namespace Mango.Web.Models
 {
     public class CartDto
     {
-        public required CartHeaderDto Header { get; set; }
+        public CartHeaderDto Header { get; set; }
         public IEnumerable<CartDetailsDto> CartDetails { get; set; }
     }
 }
